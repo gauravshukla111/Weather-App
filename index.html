@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Premium Weather App</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Weather Pro</title>
 
-  <!-- icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 <body>
 
-<div class="container">
+<div class="overlay"></div>
+
+<div class="app">
 
   <div class="card">
 
-    <h2>🌦 Weather App</h2>
-
-    <div class="search-box">
-      <input type="text" id="cityInput" placeholder="Enter city...">
-      <button onclick="getWeather()"><i class="fas fa-search"></i></button>
+    <div class="top">
+      <input type="text" id="cityInput" placeholder="Search city...">
+      <button onclick="getWeather()">
+        <i class="fas fa-search"></i>
+      </button>
     </div>
 
-    <!-- Loader -->
     <div class="loader" id="loader"></div>
-
-    <!-- Error -->
     <div class="error" id="error"></div>
 
-    <!-- Weather Data -->
-    <div class="weather-box" id="weatherBox">
-      <h3 id="cityName"></h3>
-      <i id="icon" class="weather-icon"></i>
-      <p id="temp"></p>
+    <div class="weather" id="weatherBox">
+      <h2 id="cityName"></h2>
+      <i id="icon"></i>
+      <h1 id="temp"></h1>
       <p id="desc"></p>
     </div>
 

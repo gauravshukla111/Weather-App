@@ -1,108 +1,128 @@
-body {
+* {
   margin: 0;
-  font-family: 'Segoe UI';
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
   height: 100vh;
+  background: #0f172a;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  transition: 0.6s;
   background-size: cover;
   background-position: center;
-  transition: 0.5s;
 }
 
-/* Glass effect */
+/* DARK OVERLAY */
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+}
+
+/* CENTER */
+.app {
+  position: relative;
+  z-index: 2;
+}
+
+/* GLASS CARD */
 .card {
-  backdrop-filter: blur(15px);
-  background: rgba(255,255,255,0.1);
+  width: 340px;
   padding: 25px;
   border-radius: 20px;
-  width: 350px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  animation: fadeIn 0.5s ease;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,255,255,0.2);
+
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.6),
+    inset 0 0 20px rgba(255,255,255,0.05);
 }
 
-@keyframes fadeIn {
-  from {opacity: 0; transform: scale(0.9);}
-  to {opacity: 1; transform: scale(1);}
-}
-
-.search-box {
+/* SEARCH */
+.top {
   display: flex;
-  margin-top: 10px;
+  gap: 10px;
 }
 
-.search-box input {
+.top input {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border-radius: 10px;
   border: none;
+  outline: none;
 }
 
-.search-box button {
-  padding: 10px;
-  margin-left: 5px;
+.top button {
+  padding: 12px;
   border-radius: 10px;
   border: none;
-  cursor: pointer;
   background: #38bdf8;
+  cursor: pointer;
 }
 
-.weather-box {
+/* WEATHER */
+.weather {
+  text-align: center;
   margin-top: 20px;
-  animation: slideUp 0.5s ease;
+  display: none;
 }
 
-@keyframes slideUp {
-  from {opacity: 0; transform: translateY(20px);}
-  to {opacity: 1; transform: translateY(0);}
+.weather i {
+  font-size: 60px;
+  margin: 10px 0;
 }
 
-.weather-icon {
-  font-size: 50px;
-  margin: 10px;
+.weather h1 {
+  font-size: 45px;
 }
 
-/* Loader */
+/* LOADER */
 .loader {
   display: none;
-  border: 5px solid #ccc;
-  border-top: 5px solid #38bdf8;
+  margin: 20px auto;
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255,255,255,0.2);
+  border-top: 4px solid white;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin: 15px auto;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  100% {transform: rotate(360deg);}
+  100% { transform: rotate(360deg); }
 }
 
-/* Error UI */
+/* ERROR */
 .error {
-  color: red;
+  text-align: center;
+  color: #ff4d4d;
   margin-top: 10px;
 }
 
-/* Background GIFs */
+/* BACKGROUNDS */
 .sunny {
-  background: url("https://i.gifer.com/7VE.gif");
+  background-image: url("https://images.unsplash.com/photo-1502082553048-f009c37129b9");
 }
 
 .rainy {
-  background: url("https://i.gifer.com/ZZ5H.gif");
+  background-image: url("https://images.unsplash.com/photo-1500375592092-40eb2168fd21");
 }
 
 .cloudy {
-  background: url("https://i.gifer.com/8yG.gif");
+  background-image: url("https://images.unsplash.com/photo-1499346030926-9a72daac6c63");
 }
 
 .snow {
-  background: url("https://i.gifer.com/4V0b.gif");
+  background-image: url("https://images.unsplash.com/photo-1608889175123-8ee362201f81");
 }
 
 .night {
-  background: url("https://i.gifer.com/7efs.gif");
-}   
+  background-image: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470");
+}

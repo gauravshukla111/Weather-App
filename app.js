@@ -18,16 +18,14 @@ async function getWeather() {
 
     const data = await res.json();
 
-    if (data.cod !== 200) {
-      throw new Error("City not found");
-    }
+    if (data.cod !== 200) throw new Error("City not found");
 
     document.getElementById("cityName").innerText = data.name;
-    document.getElementById("temp").innerText = data.main.temp + "°C";
+    document.getElementById("temp").innerText = Math.round(data.main.temp) + "°C";
     document.getElementById("desc").innerText = data.weather[0].main;
 
     setIcon(data.weather[0].main);
-    setBackground(data.weather[0].main, data.dt, data.sys.sunset);
+    setBg(data.weather[0].main, data.dt, data.sys.sunset);
 
     box.style.display = "block";
 
@@ -38,24 +36,20 @@ async function getWeather() {
   }
 }
 
-/* Icons */
 function setIcon(weather) {
   const icon = document.getElementById("icon");
 
-  if (weather.includes("Cloud")) icon.className = "fas fa-cloud weather-icon";
-  else if (weather.includes("Rain")) icon.className = "fas fa-cloud-rain weather-icon";
-  else if (weather.includes("Snow")) icon.className = "fas fa-snowflake weather-icon";
-  else icon.className = "fas fa-sun weather-icon";
+  if (weather.includes("Cloud")) icon.className = "fas fa-cloud";
+  else if (weather.includes("Rain")) icon.className = "fas fa-cloud-rain";
+  else if (weather.includes("Snow")) icon.className = "fas fa-snowflake";
+  else icon.className = "fas fa-sun";
 }
 
-/* Background */
-function setBackground(weather, time, sunset) {
+function setBg(weather, time, sunset) {
   const body = document.body;
   body.className = "";
 
-  const isNight = time > sunset;
-
-  if (isNight) body.classList.add("night");
+  if (time > sunset) body.classList.add("night");
   else if (weather.includes("Rain")) body.classList.add("rainy");
   else if (weather.includes("Cloud")) body.classList.add("cloudy");
   else if (weather.includes("Snow")) body.classList.add("snow");
