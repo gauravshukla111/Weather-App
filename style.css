@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI';
+  transition: 0.5s;
+  background: linear-gradient(135deg, #1e3a8a, #0f172a);
+  color: white;
+}
+
+.container {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.search-box input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.search-box button {
+  padding: 10px;
+  margin-left: 5px;
+  border-radius: 8px;
+  border: none;
+  background: #38bdf8;
+  cursor: pointer;
+}
+
+.weather-box {
+  margin-top: 20px;
+  font-size: 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Dynamic backgrounds */
+.sunny {
+  background: linear-gradient(135deg, #facc15, #f97316);
+}
+
+.rainy {
+  background: linear-gradient(135deg, #0ea5e9, #1e293b);
+}
+
+.cloudy {
+  background: linear-gradient(135deg, #94a3b8, #334155);
+}
+
+.night {
+  background: linear-gradient(135deg, #020617, #0f172a);
+}
