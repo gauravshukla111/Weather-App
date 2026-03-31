@@ -2,24 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Weather App</title>
+  <title>Premium Weather App</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
 
 <div class="container">
-  <h2>🌦 Weather App</h2>
 
-  <div class="search-box">
-    <input type="text" id="cityInput" placeholder="Enter city...">
-    <button onclick="getWeather()">Search</button>
+  <div class="card">
+
+    <h2>🌦 Weather App</h2>
+
+    <div class="search-box">
+      <input type="text" id="cityInput" placeholder="Enter city...">
+      <button onclick="getWeather()"><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader"></div>
+
+    <!-- Error -->
+    <div class="error" id="error"></div>
+
+    <!-- Weather Data -->
+    <div class="weather-box" id="weatherBox">
+      <h3 id="cityName"></h3>
+      <i id="icon" class="weather-icon"></i>
+      <p id="temp"></p>
+      <p id="desc"></p>
+    </div>
+
   </div>
 
-  <div class="weather-box" id="weatherBox">
-    <h3 id="cityName"></h3>
-    <p id="temp"></p>
-    <p id="desc"></p>
-  </div>
 </div>
 
 <script src="app.js"></script>

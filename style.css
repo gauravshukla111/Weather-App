@@ -1,55 +1,108 @@
 body {
   margin: 0;
   font-family: 'Segoe UI';
-  transition: 0.5s;
-  background: linear-gradient(135deg, #1e3a8a, #0f172a);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
+  background-size: cover;
+  background-position: center;
+  transition: 0.5s;
 }
 
-.container {
+/* Glass effect */
+.card {
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.1);
+  padding: 25px;
+  border-radius: 20px;
+  width: 350px;
   text-align: center;
-  margin-top: 100px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.9);}
+  to {opacity: 1; transform: scale(1);}
+}
+
+.search-box {
+  display: flex;
+  margin-top: 10px;
 }
 
 .search-box input {
+  flex: 1;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
 }
 
 .search-box button {
   padding: 10px;
   margin-left: 5px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
-  background: #38bdf8;
   cursor: pointer;
+  background: #38bdf8;
 }
 
 .weather-box {
   margin-top: 20px;
-  font-size: 20px;
-  animation: fadeIn 0.5s ease;
+  animation: slideUp 0.5s ease;
 }
 
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(10px);}
+@keyframes slideUp {
+  from {opacity: 0; transform: translateY(20px);}
   to {opacity: 1; transform: translateY(0);}
 }
 
-/* Dynamic backgrounds */
+.weather-icon {
+  font-size: 50px;
+  margin: 10px;
+}
+
+/* Loader */
+.loader {
+  display: none;
+  border: 5px solid #ccc;
+  border-top: 5px solid #38bdf8;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 15px auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% {transform: rotate(360deg);}
+}
+
+/* Error UI */
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Background GIFs */
 .sunny {
-  background: linear-gradient(135deg, #facc15, #f97316);
+  background: url("https://i.gifer.com/7VE.gif");
 }
 
 .rainy {
-  background: linear-gradient(135deg, #0ea5e9, #1e293b);
+  background: url("https://i.gifer.com/ZZ5H.gif");
 }
 
 .cloudy {
-  background: linear-gradient(135deg, #94a3b8, #334155);
+  background: url("https://i.gifer.com/8yG.gif");
+}
+
+.snow {
+  background: url("https://i.gifer.com/4V0b.gif");
 }
 
 .night {
-  background: linear-gradient(135deg, #020617, #0f172a);
-}
+  background: url("https://i.gifer.com/7efs.gif");
+}   
