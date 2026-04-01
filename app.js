@@ -1,5 +1,5 @@
 const weather = {
-    // PASTE YOUR OPENWEATHERMAP API KEY HERE (It's free to get)
+
     apiKey: "17a64d67850bee3cfb7a057e84878518",
     
     // Cache background media elements
