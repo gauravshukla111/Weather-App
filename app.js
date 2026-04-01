@@ -1,143 +1,102 @@
-const weather = {
+const API_KEY = "17a64d67850bee3cfb7a057e84878518"; 
 
-    apiKey: "17a64d67850bee3cfb7a057e84878518",
-    
-    // Cache background media elements
-    bgVideo: document.getElementById('bg-video'),
-    videoBackground: document.querySelector('.video-background'),
-
-    // Add your own dynamic video or image URLs here based on the condition
-    // For premium feel, use high-quality, seamless mp4 or webm videos
-    conditionMedia: {
-        "Clear": {
-            type: 'gradient',
-            value: 'linear-gradient(135deg, #12c2e9, #c471ed, #f64f59)' // Custom gradient for clear sky
-            // Or use a video: { type: 'video', value: 'path/to/clear_sky.mp4' }
-        },
-        "Clouds": {
-            type: 'gradient',
-            value: 'linear-gradient(135deg, #232526, #414345)' // Custom gradient for clouds
-        },
-        "Rain": {
-            type: 'gradient',
-            value: 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)' // Custom gradient for rain
-        },
-        "Thunderstorm": {
-            type: 'gradient',
-            value: 'linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)'
-        },
-        "Snow": {
-            type: 'gradient',
-            value: 'linear-gradient(135deg, #83a4d4, #b6fbff)'
-        },
-        // Fallback or generic condition
-        "Default": {
-            type: 'gradient',
-            value: 'linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)'
-        }
-    },
-
-    fetchWeather: function (city) {
-        // Show loading state and hide data
-        document.querySelector(".loading-state").classList.remove("hidden");
-        document.querySelector(".weather").classList.add("loading");
-        
-        fetch(
-            "https://api.openweathermap.org/data/2.5/weather?q=" +
-            city +
-            "&units=metric&appid=" +
-            this.apiKey
-        )
-        .then((response) => {
-            if (!response.ok) {
-                alert("No weather found. Make sure you enter a valid location.");
-                throw new Error("No weather found.");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            // Populate and show weather data
-            this.displayWeather(data);
-            
-            // Seamless background transition based on new weather condition
-            this.updateBackground(data.weather[0].main);
-        })
-        .catch((err) => {
-            // Hide loading state on error, data might be stale or default
-            document.querySelector(".loading-state").classList.add("hidden");
-            console.error("Fetch error:", err);
-        });
-    },
-    
-    displayWeather: function (data) {
-        const { name } = data;
-        const { icon, description } = data.weather[0];
-        const { temp, humidity } = data.main;
-        const { speed } = data.wind;
-        
-        document.querySelector(".city").innerText = "Weather in " + name;
-        document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
-        document.querySelector(".description").innerText = description;
-        document.querySelector(".temp").innerText = Math.round(temp) + "°C";
-        document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
-        document.querySelector(".wind").innerText = "Wind speed: " + speed + " km/h";
-        
-        // Final state: Hide loading, show data with animation
-        document.querySelector(".loading-state").classList.add("hidden");
-        document.querySelector(".weather").classList.remove("loading");
-    },
-    
-    updateBackground: function(condition) {
-        // Find the media configuration or use default
-        let media = this.conditionMedia[condition] || this.conditionMedia["Default"];
-
-        if (media.type === 'gradient') {
-            // If it's a gradient, apply it smoothly. Video might be running in background.
-            // If you want to use videos, uncomment the conditionMedia video lines.
-            // For now, it seamlessly switches gradients and hides video if running.
-            this.videoBackground.style.background = media.value;
-            this.bgVideo.style.opacity = '0'; // Hide video if it was running.
-            // When user provides video, this section would have additional logic to switch videos.
-        } else if (media.type === 'video') {
-            // If you provided video, uncomment conditionMedia video lines and use this logic.
-            this.bgVideo.style.opacity = '0'; // Start with hiding the current video
-            // Wait for transition before changing source
-            setTimeout(() => {
-                const source = this.bgVideo.querySelector('source');
-                if (source) {
-                    source.src = media.value;
-                    this.bgVideo.load();
-                    this.bgVideo.style.opacity = '1';
-                } else {
-                    // Create a source element if not present
-                    const newSource = document.createElement('source');
-                    newSource.src = media.value;
-                    newSource.type = 'video/mp4';
-                    this.bgVideo.appendChild(newSource);
-                    this.bgVideo.style.opacity = '1';
-                }
-            }, 1000); // Should match CSS transition time
-        }
-    },
-    
-    search: function () {
-        const query = document.querySelector(".search-bar").value;
-        if (query) {
-            this.fetchWeather(query);
-        }
-    },
+const elements = {
+    searchInput: document.getElementById('search-input'),
+    searchBtn: document.getElementById('search-btn'),
+    weatherContent: document.getElementById('weather-content'),
+    loader: document.getElementById('loader'),
+    bgImage: document.getElementById('bg-image'),
+    fadeOverlay: document.getElementById('fade-overlay')
 };
 
-// Event Listeners for search
-document.querySelector(".search-btn").addEventListener("click", function () {
-    weather.search();
+const BG_IMAGES = {
+    "Clear": "https://images.unsplash.com/photo-1601297183305-6df142704ea2?q=80&w=1920&auto=format&fit=crop", 
+    "Clouds": "https://images.unsplash.com/photo-1534088568595-a066f410bcda?q=80&w=1920&auto=format&fit=crop", 
+    "Rain": "https://images.unsplash.com/photo-1519692933481-e162a57d6721?q=80&w=1920&auto=format&fit=crop", 
+    "Snow": "https://images.unsplash.com/photo-1478265409131-1f65c88f965c?q=80&w=1920&auto=format&fit=crop", 
+    "Thunderstorm": "https://images.unsplash.com/photo-1605727216801-e27ce1d0ce3c?q=80&w=1920&auto=format&fit=crop", 
+    "Haze": "https://images.unsplash.com/photo-1532178910976-ee3d74bc295d?q=80&w=1920&auto=format&fit=crop", 
+    "Mist": "https://images.unsplash.com/photo-1485236715568-ddc5ee6ca227?q=80&w=1920&auto=format&fit=crop", 
+    "Smoke": "https://images.unsplash.com/photo-1524260855046-f743b3cd1078?q=80&w=1920&auto=format&fit=crop",
+    "Default": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop" 
+};
+
+// 1. Fetch Weather Data
+function fetchWeather(city) {
+    if (!city) return;
+
+    // Purana data hide karo, Loader dikhao
+    elements.weatherContent.classList.add('hide');
+    elements.loader.classList.remove('hide');
+    elements.loader.style.display = "flex"; // Fix for smooth transition
+
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`)
+        .then(res => {
+            if (!res.ok) throw new Error("City not found!");
+            return res.json();
+        })
+        .then(data => updateUI(data))
+        .catch(err => {
+            alert(err.message);
+            elements.loader.classList.add('hide');
+            // Error pe sirf search bar dikhega, ya purana data wapas layein
+        });
+}
+
+// 2. Update UI
+function updateUI(data) {
+    const condition = data.weather[0].main;
+
+    // Background Image Change
+    changeBackgroundImage(condition);
+
+    // Update Text Data
+    document.getElementById('city-name').innerText = `Weather in ${data.name}`;
+    document.getElementById('temperature').innerText = `${Math.round(data.main.temp)}°C`;
+    document.getElementById('weather-desc').innerText = data.weather[0].description;
+    document.getElementById('humidity').innerText = `${data.main.humidity}%`;
+    document.getElementById('wind').innerText = `${data.wind.speed} km/h`;
+    document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+
+    // Thoda delay taki transition smooth lage
+    setTimeout(() => {
+        elements.loader.classList.add('hide');
+        elements.loader.style.display = "none";
+        
+        // Naya Data dikhao
+        elements.weatherContent.classList.remove('hide');
+        elements.weatherContent.style.display = "block";
+    }, 600); 
+}
+
+// 3. Image Transition
+function changeBackgroundImage(condition) {
+    elements.fadeOverlay.classList.add('blackout'); 
+
+    setTimeout(() => {
+        const imageUrl = BG_IMAGES[condition] || BG_IMAGES["Default"];
+        elements.bgImage.src = imageUrl;
+
+        elements.bgImage.onload = () => {
+            elements.fadeOverlay.classList.remove('blackout');
+        };
+        elements.bgImage.onerror = () => {
+            elements.fadeOverlay.classList.remove('blackout');
+        };
+    }, 500);
+}
+
+// Event Listeners
+elements.searchBtn.addEventListener('click', () => fetchWeather(elements.searchInput.value));
+elements.searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') fetchWeather(elements.searchInput.value);
 });
 
-document.querySelector(".search-bar").addEventListener("keyup", function (event) {
-    if (event.key == "Enter") {
-        weather.search();
-    }
-});
-
-// Load default city (Mumbai) on page load
-weather.fetchWeather("Mumbai");
+// App Start Setting
+window.onload = () => {
+    // 1. Page load hone par koi city data fetch nahi hoga
+    // 2. Background me direct 'Clouds' image set kar di hai (Jaise aapne manga tha)
+    changeBackgroundImage("Clouds"); 
+    
+    // 3. Data container shuru me hidden rahega (Sirf Search bar dikhega)
+};
