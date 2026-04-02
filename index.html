@@ -10,7 +10,13 @@
   <body>
     <div class="background-container">
       <div class="fallback-gradient"></div>
-      <img id="bg-image" class="bg-image" src="" alt="City Background" />
+      
+      <video id="bg-video" class="bg-media" autoplay loop muted playsinline>
+        <source src="https://media.giphy.com/media/3o7rc6sa2RvKo8K5EI/giphy.mp4" type="video/mp4">
+      </video>
+
+      <img id="bg-image" class="bg-media hide-media" src="" alt="Weather Background" />
+      
       <div class="fade-overlay" id="fade-overlay"></div>
     </div>
 
@@ -28,7 +34,7 @@
 
         <div class="loader-container hide" id="loader">
           <div class="spinner"></div>
-          <p>Fetching weather...</p>
+          <p>Fetching real data...</p>
         </div>
 
         <div class="weather-content hide" id="weather-content">
