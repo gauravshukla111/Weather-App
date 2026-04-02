@@ -2,250 +2,148 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
-body,
-html {
-  height: 100%;
-  overflow: hidden;
-  color: #fff;
-}
-
-/* --- Background System --- */
-.background-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
+body {
   height: 100vh;
-  z-index: -10;
-  background: #000;
+  overflow: hidden;
+  color: white;
 }
-.fallback-gradient {
-  position: absolute;
+
+/* BACKGROUND */
+.background-container {
+  position:fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #1e1e2f, #2a2a40);
-  z-index: -4;
+z-index: -10;
 }
 
-/* Dono Video aur Image ke liye common class */
-.bg-gif{
-   transform: translate(-50%, -50%) scale(0.8);
-    object-fit: cover;
+#heading-title{
+    font-style: italic;
+    margin-top: 5rem;
+    font-weight: 500;
 }
 
 .bg-media {
- transform: translate(-50%, -50%) scale(0.8);
-    object-fit: cover;
-}
-
-
-.hide-media {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.search-tagline {
-    margin-top: 1rem;
-  text-align: center;
-  overflow: hidden;
-  font-size: 2rem;
-  font-weight: 300;
-  /* text-decoration: underline; */
-  font-style: italic;
-  color: var(--text-main);
-  letter-spacing: 0.02em;
-  line-height: 1.1;
-  transform: translateY(30px);
-  animation: fadeUp 0.9s var(--transition) 0.5s forwards;
-}
-
-.fade-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: -1;
-  transition: background 0.8s ease;
-}
-.fade-overlay.blackout {
-  background: rgba(0, 0, 0, 1);
+
+  object-fit: cover;
+
+  transform: translate(-50%, -50%);
 }
 
-/* --- Main UI --- */
+.hide-media{
+opacity: 0;
+}
+
+.fade-overlay{
+  position: absolute;
+  width:100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  transition: 0.5s;
+}
+
+.fade-overlay.black {
+  background: rgba(0,0,0,1);
+}
+
+/* TAGLINE */
+.search-tagline{
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.8rem;
+  opacity: 0.8;
+}
+
+/* APP */
 .app-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding: 20px;
+  height: 50%;
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-  border-radius: 24px;
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 450px;
-  transition: all 0.5s ease;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  border-radius: 20px;
+  width: 350px;
 }
+
 
 .search {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  gap: 10px;
 }
 
-.search-bar {
+.search input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
   border: none;
   outline: none;
-  padding: 12px 20px;
-  border-radius: 30px;
-  background: rgba(0, 0, 0, 0.25);
-  color: white;
-  font-size: 1.1rem;
-  width: 80%;
-  transition:
-    background 0.3s,
-    box-shadow 0.3s;
-}
-.search-bar:focus {
-  background: rgba(0, 0, 0, 0.45);
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-}
-.search-bar::placeholder {
-  color: rgba(255, 255, 255, 0.6);
 }
 
-.search-btn {
-  border-radius: 50%;
+.search button {
   border: none;
-  height: 50px;
-  width: 50px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  border-radius: 50%;
+  padding: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
+}
+
+
+.weather {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.weather img {
+  width: 60px;
+}
+
+.desc-box {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.search-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
-  transform: scale(1.05);
+  gap: 10px;
 }
 
-/* --- Weather Content --- */
-.weather-content {
-  transition:
-    opacity 0.5s ease,
-    transform 0.5s ease;
-  opacity: 1;
-  transform: translateY(0);
-  margin-top: 2rem;
-}
-.weather-content.hide {
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-  display: none;
-}
-
-.city {
-  font-size: 2.2rem;
-  font-weight: 500;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
-  margin-bottom: 5px;
-}
-.temp {
-  font-size: 4.5rem;
-  font-weight: 600;
-  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
-  margin: 0;
-  line-height: 1;
-}
-.flex-info {
-  display: flex;
-  align-items: center;
-  margin: 15px 0 25px 0;
-}
-.weather-icon {
-  width: 60px;
-  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
-}
-.description {
-  text-transform: capitalize;
-  font-size: 1.3rem;
-  margin-left: 10px;
-  font-weight: 400;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.bottom-details {
+.details {
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding-top: 20px;
-  margin-top: 10px;
-}
-.detail-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 45%;
-  background: rgba(0, 0, 0, 0.25);
-  padding: 10px;
-  border-radius: 15px;
-}
-.detail-box .label {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 5px;
-}
-.detail-box .value {
-  font-size: 1.2rem;
-  font-weight: 500;
+  margin-top: 15px;
 }
 
-/* --- Spinner --- */
-.loader-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 150px;
-  transition: opacity 0.3s ease;
-  margin-top: 1rem;
+
+.loader {
+  text-align: center;
+  margin-top: 20px;
 }
-.loader-container.hide {
+
+.hide{
   display: none;
 }
-.loader-container p {
-  margin-top: 15px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1.1rem;
+
+.spinner{
+  border: 4px solid #ccc;
+  border-top: 4px solid white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: auto;
+  animation: spin 1s linear infinite;
 }
 
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 1s infinite linear;
-}
-@keyframes spin{
-  100% {
-    transform: rotate(360deg);
-  }
+@keyframes spin {
+  100% { transform: rotate(360deg); }
 }

@@ -1,110 +1,80 @@
-const API_KEY = "17a64d67850bee3cfb7a057e84878518"; 
+const API_KEY = "17a64d67850bee3cfb7a057e84878518";
 
-const elements = {
-    searchInput: document.getElementById('search-input'),
-    searchBtn: document.getElementById('search-btn'),
-    weatherContent: document.getElementById('weather-content'),
-    loader: document.getElementById('loader'),
-    bgVideo: document.getElementById('bg-video'), // Video element
-    bgImage: document.getElementById('bg-image'), // Image element
-    fadeOverlay: document.getElementById('fade-overlay')
-};
+const input = document.getElementById("search-input");
+const btn = document.getElementById("search-btn");
 
-// Har possible weather condition ke liye images (Taki ek jaisi image na aaye)
-const BG_IMAGES = {
-    "Clear": "https://images.unsplash.com/photo-1601297183305-6df142704ea2?q=80&w=1920&auto=format&fit=crop", 
-    "Clouds": "https://images.unsplash.com/photo-1534088568595-a066f410bcda?q=80&w=1920&auto=format&fit=crop", 
-    "Rain": "https://images.unsplash.com/photo-1519692933481-e162a57d6721?q=80&w=1920&auto=format&fit=crop", 
-    "Drizzle": "https://images.unsplash.com/photo-1541695780521-827c1964293f?q=80&w=1920&auto=format&fit=crop",
-    "Snow": "https://images.unsplash.com/photo-1478265409131-1f65c88f965c?q=80&w=1920&auto=format&fit=crop", 
-    "Thunderstorm": "https://images.unsplash.com/photo-1605727216801-e27ce1d0ce3c?q=80&w=1920&auto=format&fit=crop", 
-    "Haze": "https://images.unsplash.com/photo-1532178910976-ee3d74bc295d?q=80&w=1920&auto=format&fit=crop", 
-    "Mist": "https://images.unsplash.com/photo-1485236715568-ddc5ee6ca227?q=80&w=1920&auto=format&fit=crop", 
-    "Smoke": "https://images.unsplash.com/photo-1524260855046-f743b3cd1078?q=80&w=1920&auto=format&fit=crop",
-    "Dust": "https://images.unsplash.com/photo-1545134969-8debd725b733?q=80&w=1920&auto=format&fit=crop",
-    "Fog": "https://images.unsplash.com/photo-1485236715568-ddc5ee6ca227?q=80&w=1920&auto=format&fit=crop",
-    "Default": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop" 
-};
+const loader = document.getElementById("loader");
+const weatherBox = document.getElementById("weather");
 
-// 1. Fetch Weather Data
-function fetchWeather(city) {
-    if (!city) return;
+const city = document.getElementById("city");
+const temp = document.getElementById("temp");
+const desc = document.getElementById("desc");
+const icon = document.getElementById("icon");
+const humidity = document.getElementById("humidity");
+const wind = document.getElementById("wind");
 
-    elements.weatherContent.classList.add('hide');
-    elements.loader.classList.remove('hide');
-    elements.loader.style.display = "flex"; 
+const bgVideo = document.getElementById("bg-video");
+const bgImage = document.getElementById("bg-image");
+const overlay = document.getElementById("fade-overlay");
 
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`)
-        .then(res => {
-            if (!res.ok) throw new Error("City not found!");
-            return res.json();
-        })
-        .then(data => updateUI(data))
-        .catch(err => {
-            alert("Error: " + err.message);
-            elements.loader.classList.add('hide');
-        });
+/* RANDOM BACKGROUNDS */
+const IMAGES = [
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920",
+  "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1920",
+  "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?w=1920",
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920",
+  "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1920"
+];
+
+
+function getWeather(cityName) {
+
+  loader.classList.remove("hide");
+  weatherBox.classList.add("hide");
+
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`)
+    .then(res => res.json())
+    .then(data => {
+
+      city.innerText = "Weather in " + data.name;
+      temp.innerText = Math.round(data.main.temp) + "°C";
+      desc.innerText = data.weather[0].description;
+      humidity.innerText = data.main.humidity + "%";
+      wind.innerText = data.wind.speed + " km/h";
+
+      icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+
+      changeBG();
+
+      loader.classList.add("hide");
+      weatherBox.classList.remove("hide");
+    })
+    .catch(() => {
+      alert("City not found");
+      loader.classList.add("hide");
+    });
 }
 
-// 2. Update UI
-function updateUI(data) {
-    const condition = data.weather[0].main; // Jaise 'Clear', 'Rain', 'Haze'
+/* RANDOM BG CHANGE */
+function changeBG() {
 
-    // Change Background Media
-    changeBackgroundMedia(condition);
+  overlay.classList.add("black");
 
-    // Update Text Data
-    document.getElementById('city-name').innerText = `Weather in ${data.name}`;
-    document.getElementById('temperature').innerText = `${Math.round(data.main.temp)}°C`;
-    document.getElementById('weather-desc').innerText = data.weather[0].description;
-    document.getElementById('humidity').innerText = `${data.main.humidity}%`;
-    document.getElementById('wind').innerText = `${data.wind.speed} km/h`;
-    document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  setTimeout(() => {
 
-    setTimeout(() => {
-        elements.loader.classList.add('hide');
-        elements.loader.style.display = "none";
-        
-        elements.weatherContent.classList.remove('hide');
-        elements.weatherContent.style.display = "block";
-    }, 600); 
+    bgVideo.classList.add("hide-media");
+
+    const random = IMAGES[Math.floor(Math.random() * IMAGES.length)];
+    bgImage.src = random;
+    bgImage.classList.remove("hide-media");
+
+    overlay.classList.remove("black");
+
+  }, 400);
 }
 
-// 3. Media Transition (Video to Image)
-function changeBackgroundMedia(condition) {
-    // Pura screen black karo transition ke liye
-    elements.fadeOverlay.classList.add('blackout'); 
+btn.onclick = () => getWeather(input.value);
 
-    setTimeout(() => {
-        // Video hide kardo
-        elements.bgVideo.classList.add('hide-media');
-        
-        // Image set karo
-        const imageUrl = BG_IMAGES[condition] || BG_IMAGES["Default"];
-        elements.bgImage.src = imageUrl;
-        
-        // Image show kardo
-        elements.bgImage.classList.remove('hide-media');
-
-        // Jaise hi image load ho, black screen hata do
-        elements.bgImage.onload = () => {
-            elements.fadeOverlay.classList.remove('blackout');
-        };
-        elements.bgImage.onerror = () => {
-            elements.fadeOverlay.classList.remove('blackout');
-        };
-    }, 500);
-}
-
-// Event Listeners
-elements.searchBtn.addEventListener('click', () => fetchWeather(elements.searchInput.value));
-elements.searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') fetchWeather(elements.searchInput.value);
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") getWeather(input.value);
 });
-
-// App Start Setting (Jab Live Karoge)
-window.onload = () => {
-    // 1. Koi city data load nahi hoga. Sirf Search bar dikhega.
-    // 2. HTML me by default Video visible hai aur Image hidden hai.
-    // 3. Bas chupchap video chalne do!
-};
