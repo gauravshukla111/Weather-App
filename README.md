@@ -29,12 +29,6 @@ It shows real-time weather data with a **dynamic background experience** and smo
 
 ---
 
-## 📸 Preview
-
-![App Preview](https://weather-app-cyan-six-63.vercel.app/)
-
----
-
 ## ⚙️ Installation & Setup
 
 1. Clone the repository:
