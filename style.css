@@ -33,25 +33,35 @@ html {
 }
 
 /* Dono Video aur Image ke liye common class */
-.bg-media {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  z-index: -2;
-  transition: opacity 1s ease;
-  opacity: 1; /* Default visible */
+.bg-gif{
+   transform: translate(-50%, -50%) scale(0.8);
+    object-fit: cover;
 }
 
-/* Kisi cheez ko chupane ke liye */
+.bg-media {
+ transform: translate(-50%, -50%) scale(0.8);
+    object-fit: cover;
+}
+
+
 .hide-media {
   opacity: 0;
   pointer-events: none;
+}
+
+.search-tagline {
+    margin-top: 1rem;
+  text-align: center;
+  overflow: hidden;
+  font-size: 2rem;
+  font-weight: 300;
+  /* text-decoration: underline; */
+  font-style: italic;
+  color: var(--text-main);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  transform: translateY(30px);
+  animation: fadeUp 0.9s var(--transition) 0.5s forwards;
 }
 
 .fade-overlay {
